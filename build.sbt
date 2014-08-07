@@ -20,17 +20,19 @@ libraryDependencies ++= {
   Seq(
     "org.eclipse.jetty" % "jetty-webapp" % jettyVersion,
     "org.eclipse.jetty" % "jetty-plus"   % jettyVersion
-  ) map (_ % "container")
+  ) map (_ % "container,test")
 }
 
 libraryDependencies ++= {
   val cucumberVersion = "1.1.8"
   val junitVersion = "4.11"
+  val seleniumVersion = "2.42.2"
   Seq(
-    "info.cukes" %  "cucumber-core"  % cucumberVersion,
-    "info.cukes" %  "cucumber-junit" % cucumberVersion,
-    "info.cukes" %% "cucumber-scala" % cucumberVersion,
-    "junit"      %  "junit"          % junitVersion
+    "info.cukes"              %  "cucumber-core"  % cucumberVersion,
+    "info.cukes"              %  "cucumber-junit" % cucumberVersion,
+    "info.cukes"              %% "cucumber-scala" % cucumberVersion,
+    "junit"                   %  "junit"          % junitVersion,
+    "org.seleniumhq.selenium" %  "selenium-java"  % seleniumVersion
   ) map (_ % "test")
 }
 
