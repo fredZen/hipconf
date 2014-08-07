@@ -1,4 +1,4 @@
-package cucumber.steps
+package cucumber.hooks
 
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.webapp.WebAppContext

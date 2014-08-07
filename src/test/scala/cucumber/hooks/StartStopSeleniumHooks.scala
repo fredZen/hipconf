@@ -1,4 +1,4 @@
-package cucumber.steps
+package cucumber.hooks
 
 import java.util.concurrent.TimeUnit
 
