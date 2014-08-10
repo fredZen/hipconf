@@ -6,7 +6,7 @@ version := "0.1-SNAPSHOT"
 
 scalaVersion := "2.11.2"
 
-seq(webSettings :_*)
+webSettings
 
 libraryDependencies ++= {
   val liftVersion = "2.6-RC1"
