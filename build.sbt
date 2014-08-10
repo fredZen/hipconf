@@ -1,6 +1,6 @@
-organization := "org.yourorganization"
+organization := "org.merizen"
 
-name := "liftfromscratch"
+name := "hipconf"
 
 version := "0.1-SNAPSHOT"
 
