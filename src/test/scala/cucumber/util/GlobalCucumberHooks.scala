@@ -1,4 +1,4 @@
-package cucumber.hooks
+package cucumber.util
 
 import cucumber.api.scala.ScalaDsl
 

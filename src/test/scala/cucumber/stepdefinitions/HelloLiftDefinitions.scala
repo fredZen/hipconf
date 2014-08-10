@@ -1,18 +1,15 @@
 package cucumber.stepdefinitions
 
-import cucumber.api.scala.{EN, ScalaDsl}
-import org.openqa.selenium.htmlunit.HtmlUnitDriver
-import org.junit.Assert.assertThat
-import org.hamcrest.CoreMatchers.containsString
+import cucumber.api.scala.EN
+import cucumber.selenium.SharedWebDriver
+import org.scalatest.ShouldMatchers
 
-class HelloLiftDefinitions extends ScalaDsl with EN {
-  val webdriver = new HtmlUnitDriver()
-
+class HelloLiftDefinitions extends SharedWebDriver with EN with ShouldMatchers {
   Given("""^I am on the homepage$"""){ () =>
-    webdriver.navigate.to("http://localhost:8080")
+    go to "http://localhost:8080"
   }
 
   Then("""^The header should contain "(.*?)"$"""){ (arg0:String) =>
-    assertThat(webdriver.findElementByCssSelector("h1").getText, containsString(arg0))
+    cssSelector("h1").element.text should include(arg0)
   }
 }
