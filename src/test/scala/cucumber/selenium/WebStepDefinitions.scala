@@ -9,12 +9,12 @@ import org.openqa.selenium.WebDriverException
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.scalatest.selenium.WebBrowser
 
-object SharedWebDriver {
+object WebStepDefinitions {
   private lazy val webDriver = new FirefoxDriver()
 }
 
-trait SharedWebDriver extends WebBrowser with GlobalCucumberHooks {
-  implicit def webDriver = SharedWebDriver.webDriver
+trait WebStepDefinitions extends WebBrowser with GlobalCucumberHooks {
+  implicit def webDriver = WebStepDefinitions.webDriver
 
   BeforeAll {
     webDriver.manage.timeouts.implicitlyWait(10, SECONDS)

@@ -1,10 +1,10 @@
 package cucumber.stepdefinitions
 
 import cucumber.api.scala.EN
-import cucumber.selenium.SharedWebDriver
+import cucumber.selenium.WebStepDefinitions
 import org.scalatest.ShouldMatchers
 
-class HelloLiftDefinitions extends SharedWebDriver with EN with ShouldMatchers {
+class HelloLiftDefinitions extends WebStepDefinitions with EN with ShouldMatchers {
   Given("""^I am on the homepage$"""){ () =>
     go to "http://localhost:8080"
   }
