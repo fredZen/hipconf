@@ -2,26 +2,60 @@
   {
     "steps": [
       {
-        "name": "I am on the homepage",
-        "args": []
+        "name": "I am logged in as Paul",
+        "args": [
+          {
+            "offset": 18,
+            "val": "Paul"
+          }
+        ]
       }
     ],
-    "source": "^I am on the homepage$",
+    "source": "^I am logged in as (.*)$",
     "flags": ""
   },
   {
     "steps": [
       {
-        "name": "The header should contain \"working Lift\"",
+        "name": "I create a new session titled \"Just what the doctor ordered\"",
         "args": [
           {
-            "offset": 27,
-            "val": "working Lift"
+            "offset": 31,
+            "val": "Just what the doctor ordered"
           }
         ]
       }
     ],
-    "source": "^The header should contain \"(.*?)\"$",
+    "source": "^I create a new session titled \"(.*)\"$",
+    "flags": ""
+  },
+  {
+    "steps": [
+      {
+        "name": "I publish the session",
+        "args": []
+      }
+    ],
+    "source": "^I publish the session$",
+    "flags": ""
+  },
+  {
+    "steps": [
+      {
+        "name": "the session \"Just what the doctor ordered\" by Paul is visible in the list of sessions",
+        "args": [
+          {
+            "offset": 13,
+            "val": "Just what the doctor ordered"
+          },
+          {
+            "offset": 46,
+            "val": "Paul"
+          }
+        ]
+      }
+    ],
+    "source": "^the session \"(.*)\" by (.*) is visible in the list of sessions$",
     "flags": ""
   }
 ]
