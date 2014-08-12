@@ -28,10 +28,12 @@ libraryDependencies ++= {
   val junitVersion = "4.11"
   val seleniumVersion = "2.42.2"
   val scalatestVersion = "2.2.1"
+  val cucumberProVersion = "1.0.10"
   Seq(
     "info.cukes" % "cucumber-core" % cucumberVersion,
     "info.cukes" % "cucumber-junit" % cucumberVersion,
     "info.cukes" %% "cucumber-scala" % cucumberVersion,
+    "info.cukes" % "cucumber-pro" % cucumberProVersion,
     "junit" % "junit" % junitVersion,
     "org.seleniumhq.selenium" % "selenium-java" % seleniumVersion,
     "org.scalatest" %% "scalatest" % scalatestVersion
