@@ -4,7 +4,7 @@ import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.webapp.WebAppContext
 
 object StartStopAppHooks extends GlobalCucumberHooks {
-  private var server: Server = _
+  private[this] var server: Server = _
 
   BeforeAll {
     server = new Server(8080)
