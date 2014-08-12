@@ -1,0 +1,27 @@
+[
+  {
+    "steps": [
+      {
+        "name": "I am on the homepage",
+        "args": []
+      }
+    ],
+    "source": "^I am on the homepage$",
+    "flags": ""
+  },
+  {
+    "steps": [
+      {
+        "name": "The header should contain \"working Lift\"",
+        "args": [
+          {
+            "offset": 27,
+            "val": "working Lift"
+          }
+        ]
+      }
+    ],
+    "source": "^The header should contain \"(.*?)\"$",
+    "flags": ""
+  }
+]

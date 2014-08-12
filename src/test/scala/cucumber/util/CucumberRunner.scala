@@ -5,5 +5,9 @@ import cucumber.api.junit.Cucumber
 import org.junit.runner.RunWith
 
 @RunWith(classOf[Cucumber])
-@CucumberOptions(features = Array("src/test/resources/cucumber"), glue = Array("cucumber"))
+@CucumberOptions(
+  features = Array("src/test/resources/cucumber"),
+  glue = Array("cucumber"),
+  dotcucumber = ".cucumber"
+)
 class CucumberRunner
