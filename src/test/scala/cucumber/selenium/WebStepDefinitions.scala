@@ -3,18 +3,15 @@ package cucumber.selenium
 import java.util.concurrent.TimeUnit._
 
 import cucumber.api.Scenario
+import cucumber.api.scala.ScalaDsl
 import cucumber.util.GlobalCucumberHooks
 import org.openqa.selenium.OutputType._
 import org.openqa.selenium.WebDriverException
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.scalatest.selenium.WebBrowser
 
-object WebStepDefinitions {
+object WebStepDefinitions extends GlobalCucumberHooks {
   private lazy val webDriver = new FirefoxDriver()
-}
-
-trait WebStepDefinitions extends WebBrowser with GlobalCucumberHooks {
-  implicit def webDriver = WebStepDefinitions.webDriver
 
   BeforeAll {
     webDriver.manage.timeouts.implicitlyWait(10, SECONDS)
@@ -40,4 +37,8 @@ trait WebStepDefinitions extends WebBrowser with GlobalCucumberHooks {
   AfterAll {
     webDriver.quit()
   }
+}
+
+trait WebStepDefinitions extends ScalaDsl with WebBrowser {
+  implicit def webDriver = WebStepDefinitions.webDriver
 }
