@@ -21,11 +21,21 @@ object WebStepDefinitions extends GlobalCucumberHooks {
     webDriver.manage.deleteAllCookies()
   }
 
-  After { scenario: Scenario =>
-    embedScreenShotInReport(scenario)
+  AfterAll {
+    webDriver.quit()
+  }
+}
+
+trait WebStepDefinitions extends ScalaDsl with WebBrowser {
+  implicit protected def webDriver = WebStepDefinitions.webDriver
+
+  private var scenario: Scenario = _
+
+  Before { scenario =>
+    this.scenario = scenario
   }
 
-  private def embedScreenShotInReport(scenario: Scenario) =
+  protected def embedScreenShotInReport(): Unit =
     try {
       val screenShot = webDriver.getScreenshotAs(BYTES)
       scenario.embed(screenShot, "image/png")
@@ -33,12 +43,4 @@ object WebStepDefinitions extends GlobalCucumberHooks {
       case somePlatformsDontSupportScreenShots: WebDriverException =>
         System.err.println(somePlatformsDontSupportScreenShots.getMessage)
     }
-
-  AfterAll {
-    webDriver.quit()
-  }
-}
-
-trait WebStepDefinitions extends ScalaDsl with WebBrowser {
-  implicit def webDriver = WebStepDefinitions.webDriver
 }
