@@ -1,4 +1,4 @@
-package cucumber.selenium
+package cucumber.endtoend
 
 import java.util.concurrent.TimeUnit._
 

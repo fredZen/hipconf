@@ -1,0 +1,32 @@
+package cucumber.integration
+
+import cucumber.stepprototypes.SessionStepPrototypes
+import net.liftweb.squerylrecord.RecordTypeMode._
+import org.merizen.hipconf.persistance.HipConfRepository._
+import org.merizen.hipconf.session.Session
+import org.scalatest.ShouldMatchers
+
+object SessionStepDefinitions extends SessionStepPrototypes with ShouldMatchers {
+  var sessionUnderEdition: Option[Session] = None
+
+  override def createSessionTitled(sessionTitle: String): Unit = inTransaction {
+    val session = new Session
+    session.title(sessionTitle)
+    sessionUnderEdition = Some(session)
+  }
+
+  override def publishSession(): Unit = inTransaction {
+    val session = sessionUnderEdition.get
+    session.save
+    session.authors.associate(AuthenticationStepDefinitions.currentUser.get)
+  }
+
+  override def assertSessionVisible(sessionTitle: String, authorName: String): Unit = inTransaction {
+    from(sessions, sessionAuthors, users)((s, a, u) =>
+      where(s.id === a.sessionId and a.userId === u.id
+        and u.firstName === authorName
+        and s.title === sessionTitle)
+        compute count
+    ).single.measures should be === 1
+  }
+}

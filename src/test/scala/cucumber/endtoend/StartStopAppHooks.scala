@@ -1,5 +1,6 @@
-package cucumber.util
+package cucumber.endtoend
 
+import cucumber.util.GlobalCucumberHooks
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.webapp.WebAppContext
 

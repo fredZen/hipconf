@@ -1,13 +1,22 @@
 package bootstrap.liftweb
 
-import net.liftweb.http.{Html5Properties, LiftRules, Req}
+import java.sql.DriverManager
+
+import net.liftweb.http.{Html5Properties, LiftRules, Req, S}
 import net.liftweb.sitemap.{Menu, SiteMap}
+import net.liftweb.squerylrecord.RecordTypeMode._
+import net.liftweb.squerylrecord.SquerylRecord
+import net.liftweb.util.{LiftFlowOfControlException, LoanWrapper}
+import org.merizen.hipconf.persistance.HipConfRepository
+import org.squeryl.Session
+import org.squeryl.adapters.H2Adapter
 
 /**
  * A class that's instantiated early and run.  It allows the application
  * to modify lift's environment
  */
 class Boot {
+
   def boot(): Unit = {
     // where to search snippet
     LiftRules.addToPackages("org.merizen.hipconf.snippet")
@@ -20,5 +29,42 @@ class Boot {
     // Use HTML5 for rendering
     LiftRules.htmlProperties.default.set((r: Req) =>
       new Html5Properties(r.userAgent))
+
+    setupDatabase()
+  }
+
+  private def setupDatabase(): Unit = {
+    connectToDatabase()
+    wrapAllRequestsInTransaction()
+    inTransaction{
+      HipConfRepository.create
+    }
+  }
+
+  private def connectToDatabase(): Unit = {
+    Class.forName("org.h2.Driver")
+    def connection = DriverManager.getConnection(
+      "jdbc:h2:mem:",
+      "sa", "")
+    SquerylRecord.initWithSquerylSession(Session.create(connection, new H2Adapter))
+  }
+
+  private def wrapAllRequestsInTransaction(): Unit = {
+    S.addAround(new LoanWrapper {
+      override def apply[T](f: => T): T = {
+        val result = inTransaction {
+          try {
+            Right(f)
+          } catch {
+            case e: LiftFlowOfControlException => Left(e)
+          }
+        }
+
+        result match {
+          case Right(r) => r
+          case Left(exception) => throw exception
+        }
+      }
+    })
   }
 }

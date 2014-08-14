@@ -7,6 +7,7 @@ version := "0.1-SNAPSHOT"
 scalaVersion := "2.11.2"
 
 val liftVersion = "2.6-RC1"
+val h2Version = "1.3.176"
 val cucumberVersion = "1.1.8"
 val junitVersion = "4.11"
 val seleniumVersion = "2.42.2"
@@ -20,7 +21,9 @@ webSettings
 def scope(scopeName: String, deps: ModuleID*) = deps map (_ % scopeName)
 
 libraryDependencies ++= scope("compile",
-  "net.liftweb" %% "lift-webkit" % liftVersion
+  "net.liftweb" %% "lift-webkit" % liftVersion,
+  "net.liftweb" %% "lift-squeryl-record" % liftVersion,
+  "com.h2database" % "h2" % h2Version
 )
 
 libraryDependencies ++= scope("test",
