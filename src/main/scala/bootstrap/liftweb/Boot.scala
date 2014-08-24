@@ -16,22 +16,16 @@ import org.squeryl.adapters.H2Adapter
  * to modify lift's environment
  */
 class Boot {
-
   def boot(): Unit = {
-    // where to search snippet
     LiftRules.addToPackages("org.merizen.hipconf.snippet")
-
-    // Build SiteMap
-    def sitemap(): SiteMap = SiteMap(
-      Menu.i("Home") / "index"
-    )
-
-    // Use HTML5 for rendering
-    LiftRules.htmlProperties.default.set((r: Req) =>
-      new Html5Properties(r.userAgent))
-
+    LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
     setupDatabase()
   }
+
+  // Build SiteMap
+  def sitemap(): SiteMap = SiteMap(
+    Menu.i("Home") / "index"
+  )
 
   private def setupDatabase(): Unit = {
     connectToDatabase()
@@ -39,32 +33,32 @@ class Boot {
     inTransaction{
       HipConfRepository.create
     }
-  }
+    
+    def connectToDatabase(): Unit = {
+      Class.forName("org.h2.Driver")
+      def connection = DriverManager.getConnection(
+        "jdbc:h2:mem:hipconf;DB_CLOSE_DELAY=-1",
+        "sa", "")
+      SquerylRecord.initWithSquerylSession(Session.create(connection, new H2Adapter))
+    }
 
-  private def connectToDatabase(): Unit = {
-    Class.forName("org.h2.Driver")
-    def connection = DriverManager.getConnection(
-      "jdbc:h2:mem:",
-      "sa", "")
-    SquerylRecord.initWithSquerylSession(Session.create(connection, new H2Adapter))
-  }
+    def wrapAllRequestsInTransaction(): Unit = {
+      S.addAround(new LoanWrapper {
+        override def apply[T](f: => T): T = {
+          val result = inTransaction {
+            try {
+              Right(f)
+            } catch {
+              case e: LiftFlowOfControlException => Left(e)
+            }
+          }
 
-  private def wrapAllRequestsInTransaction(): Unit = {
-    S.addAround(new LoanWrapper {
-      override def apply[T](f: => T): T = {
-        val result = inTransaction {
-          try {
-            Right(f)
-          } catch {
-            case e: LiftFlowOfControlException => Left(e)
+          result match {
+            case Right(r) => r
+            case Left(exception) => throw exception
           }
         }
-
-        result match {
-          case Right(r) => r
-          case Left(exception) => throw exception
-        }
-      }
-    })
+      })
+    }
   }
 }
