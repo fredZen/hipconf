@@ -13,7 +13,7 @@ class SetupDbHooks extends GlobalCucumberHooks {
   BeforeAll {
     Class.forName("org.h2.Driver")
     def connection = DriverManager.getConnection(
-      "jdbc:h2:mem:dbname;DB_CLOSE_DELAY=-1",
+      "jdbc:h2:mem:hipconf;DB_CLOSE_DELAY=-1",
       "sa", "")
     SquerylRecord.initWithSquerylSession(Session.create(connection, new H2Adapter))
 
