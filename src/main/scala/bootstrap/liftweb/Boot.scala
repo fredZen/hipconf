@@ -9,6 +9,7 @@ import net.liftweb.squerylrecord.RecordTypeMode._
 import net.liftweb.squerylrecord.SquerylRecord
 import net.liftweb.util.{LiftFlowOfControlException, LoanWrapper}
 import org.merizen.hipconf.persistance.HipConfRepository
+import org.merizen.hipconf.user.User
 import org.squeryl.Session
 import org.squeryl.adapters.H2Adapter
 
@@ -25,9 +26,16 @@ class Boot {
     provideJQuery()
   }
 
-  def siteMap(): SiteMap = SiteMap(
-    Menu.i("Home") / "index"
-  )
+  private def siteMap: SiteMap = {
+    def siteMapMutator = User.sitemapMutator
+
+    def siteMapTemplate: SiteMap =
+      SiteMap(
+        Menu.i("Home") / "index" >> User.AddUserMenusAfter
+      )
+
+    siteMapMutator(siteMapTemplate)
+  }
 
   private def setupDatabase(): Unit = {
     connectToDatabase()
