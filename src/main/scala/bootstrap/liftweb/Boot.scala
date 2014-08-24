@@ -12,7 +12,7 @@ import net.liftweb.util.{Props, Mailer, LiftFlowOfControlException, LoanWrapper}
 import org.merizen.hipconf.persistance.HipConfRepository
 import org.merizen.hipconf.user.User
 import org.squeryl.Session
-import org.squeryl.adapters.H2Adapter
+import org.squeryl.internals.DatabaseAdapter
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -47,11 +47,18 @@ class Boot {
     }
     
     def connectToDatabase(): Unit = {
-      Class.forName("org.h2.Driver")
-      def connection = DriverManager.getConnection(
-        "jdbc:h2:mem:hipconf;DB_CLOSE_DELAY=-1",
-        "sa", "")
-      SquerylRecord.initWithSquerylSession(Session.create(connection, new H2Adapter))
+      for {
+        driver <- Props.get("db.driver")
+        url <- Props.get("db.url")
+        user <- Props.get("db.user")
+        pass <- Props.get("db.password")
+        adapterClass <- Props.get("db.adapter")
+      } {
+        Class.forName(driver)
+        val adapter: DatabaseAdapter = Class.forName(adapterClass).newInstance().asInstanceOf[DatabaseAdapter]
+        def connection = DriverManager.getConnection(url, user, pass)
+        SquerylRecord.initWithSquerylSession(Session.create(connection, adapter))
+      }
     }
 
     def wrapAllRequestsInTransaction(): Unit = {
