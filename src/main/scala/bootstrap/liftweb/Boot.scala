@@ -43,6 +43,7 @@ class Boot {
     connectToDatabase()
     wrapAllRequestsInTransaction()
     inTransaction{
+      HipConfRepository.drop
       HipConfRepository.create
     }
     
