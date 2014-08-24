@@ -19,7 +19,12 @@ val servletApiVersion = "3.0.1"
 
 webSettings
 
-def scope(scopeName: String, deps: ModuleID*) = deps map (_ % scopeName)
+jrebel.webLinks <++= webappResources in Compile
+
+jrebelSettings
+
+def scope(scopeName: String, deps: ModuleID*) =
+  deps map (_ % scopeName)
 
 libraryDependencies ++= scope("compile",
   "net.liftweb" %% "lift-webkit" % liftVersion,
