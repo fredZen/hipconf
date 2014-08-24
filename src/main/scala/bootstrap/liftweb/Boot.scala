@@ -2,6 +2,7 @@ package bootstrap.liftweb
 
 import java.sql.DriverManager
 
+import net.liftmodules.JQueryModule
 import net.liftweb.http.{Html5Properties, LiftRules, Req, S}
 import net.liftweb.sitemap.{Menu, SiteMap}
 import net.liftweb.squerylrecord.RecordTypeMode._
@@ -21,6 +22,7 @@ class Boot {
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
     setupDatabase()
     LiftRules.setSiteMap(siteMap)
+    provideJQuery()
   }
 
   def siteMap(): SiteMap = SiteMap(
@@ -60,5 +62,10 @@ class Boot {
         }
       })
     }
+  }
+
+  private def provideJQuery(): Unit = {
+    JQueryModule.InitParam.JQuery = JQueryModule.JQuery111Z
+    JQueryModule.init()
   }
 }

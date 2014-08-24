@@ -6,7 +6,8 @@ version := "0.1-SNAPSHOT"
 
 scalaVersion := "2.11.2"
 
-val liftVersion = "2.6-RC1"
+val liftFamily = "2.6"
+val liftVersion = liftFamily + "-RC1"
 val h2Version = "1.3.176"
 val logbackVersion = "1.1.2"
 val cucumberVersion = "1.1.8"
@@ -26,9 +27,14 @@ jrebelSettings
 def scope(scopeName: String, deps: ModuleID*) =
   deps map (_ % scopeName)
 
+def liftModule(moduleName: String) =
+  "net.liftmodules" %% (moduleName + "_" + liftFamily)
+
+
 libraryDependencies ++= scope("compile",
   "net.liftweb" %% "lift-webkit" % liftVersion,
   "net.liftweb" %% "lift-squeryl-record" % liftVersion,
+  liftModule("lift-jquery-module") % "2.8",
   "com.h2database" % "h2" % h2Version,
   "ch.qos.logback" % "logback-classic" % logbackVersion
 )
