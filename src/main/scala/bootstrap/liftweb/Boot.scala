@@ -20,10 +20,10 @@ class Boot {
     LiftRules.addToPackages("org.merizen.hipconf.snippet")
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
     setupDatabase()
+    LiftRules.setSiteMap(siteMap)
   }
 
-  // Build SiteMap
-  def sitemap(): SiteMap = SiteMap(
+  def siteMap(): SiteMap = SiteMap(
     Menu.i("Home") / "index"
   )
 
