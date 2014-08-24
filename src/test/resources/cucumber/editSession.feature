@@ -1,5 +1,6 @@
 Feature: Edit a session
 
+  @integration
   Scenario: Publish a new session when logged in
     We want to minimize the obstacles to creating a session, so we allow users to create a session with just a working title.
 
