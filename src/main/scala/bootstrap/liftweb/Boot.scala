@@ -1,13 +1,14 @@
 package bootstrap.liftweb
 
 import java.sql.DriverManager
+import javax.mail.{Authenticator, PasswordAuthentication}
 
 import net.liftmodules.JQueryModule
 import net.liftweb.http.{Html5Properties, LiftRules, Req, S}
 import net.liftweb.sitemap.{Menu, SiteMap}
 import net.liftweb.squerylrecord.RecordTypeMode._
 import net.liftweb.squerylrecord.SquerylRecord
-import net.liftweb.util.{LiftFlowOfControlException, LoanWrapper}
+import net.liftweb.util.{Props, Mailer, LiftFlowOfControlException, LoanWrapper}
 import org.merizen.hipconf.persistance.HipConfRepository
 import org.merizen.hipconf.user.User
 import org.squeryl.Session
@@ -21,6 +22,7 @@ class Boot {
   def boot(): Unit = {
     LiftRules.addToPackages("org.merizen.hipconf.snippet")
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
+    setupMailer()
     setupDatabase()
     LiftRules.setSiteMap(siteMap)
     provideJQuery()
@@ -75,5 +77,15 @@ class Boot {
   private def provideJQuery(): Unit = {
     JQueryModule.InitParam.JQuery = JQueryModule.JQuery111Z
     JQueryModule.init()
+  }
+
+  private def setupMailer(): Unit = {
+    Mailer.authenticator = for {
+      user <- Props.get("mail.user")
+      pass <- Props.get("mail.password")
+    } yield new Authenticator {
+        override def getPasswordAuthentication =
+          new PasswordAuthentication(user, pass)
+      }
   }
 }
