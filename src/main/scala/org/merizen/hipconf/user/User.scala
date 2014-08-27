@@ -31,22 +31,18 @@ class User extends MegaProtoUser[User] with KeyedEntity[LongField[User]] {
 
 object User extends User with MetaMegaProtoUser[User] {
   def byEmail(email: String): Query[User] =
-    HipConfRepository.users.where(u => u.email === email)
+    HipConfRepository.users.where(_.email === email)
 
   def byId(id: Long): Query[User] =
-    HipConfRepository.users.where(u => u.id === id)
+    HipConfRepository.users.where(_.id === id)
 
   override protected def findUserByUserName(email: String): Box[User] =
     byEmail(email).headOption
 
   override protected def userFromStringId(id: String): Box[User] = findUserByUniqueId(id)
 
-  override protected def findUserByUniqueId(stringId: String): Box[User] =
-    try {
-      byId(stringId.toLong).headOption
-    } catch {
-      case _: NumberFormatException => Empty
-    }
+  override protected def findUserByUniqueId(uniqueId: String): Box[User] =
+      HipConfRepository.users.where(_.uniqueId === uniqueId).headOption
 
   override def screenWrap: Box[Node] = Full(
     <lift:surround with="default" at="contents">
