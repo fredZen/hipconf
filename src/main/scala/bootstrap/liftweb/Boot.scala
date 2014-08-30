@@ -1,18 +1,8 @@
 package bootstrap.liftweb
 
-import java.sql.DriverManager
-import javax.mail.{Authenticator, PasswordAuthentication}
-
-import net.liftmodules.JQueryModule
-import net.liftweb.sitemap.{Menu, SiteMap}
-import net.liftweb.squerylrecord.RecordTypeMode._
-import net.liftweb.squerylrecord.SquerylRecord
-import org.merizen.hipconf.persistance.HipConfRepository
-import org.merizen.hipconf.user.User
-import org.squeryl.Session
-import org.squeryl.internals.DatabaseAdapter
 import net.liftweb.common._
 import net.liftweb.http._
+import net.liftweb.sitemap._
 import net.liftweb.util.Helpers._
 import net.liftweb.util.Vendor._
 import net.liftweb.util._
@@ -36,6 +26,8 @@ class Boot {
   }
 
   private def siteMap: SiteMap = {
+    import org.merizen.hipconf.user.User
+
     def siteMapMutator = User.sitemapMutator
 
     def siteMapTemplate: SiteMap =
@@ -47,13 +39,21 @@ class Boot {
   }
 
   private def setupDatabase(): Unit = {
+    import java.sql.DriverManager
+
+import net.liftweb.squerylrecord.RecordTypeMode._
+    import net.liftweb.squerylrecord.SquerylRecord
+    import org.merizen.hipconf.persistance.HipConfRepository
+    import org.squeryl.Session
+    import org.squeryl.internals.DatabaseAdapter
+
     connectToDatabase()
     wrapAllRequestsInTransaction()
-    inTransaction{
+    inTransaction {
       HipConfRepository.drop
       HipConfRepository.create
     }
-    
+
     def connectToDatabase(): Unit = {
       for {
         driver <- Props.get("db.driver")
@@ -90,11 +90,15 @@ class Boot {
   }
 
   private def provideJQuery(): Unit = {
+    import net.liftmodules.JQueryModule
+
     JQueryModule.InitParam.JQuery = JQueryModule.JQuery111Z
     JQueryModule.init()
   }
 
   private def setupMailer(): Unit = {
+    import javax.mail.{Authenticator, PasswordAuthentication}
+
     Mailer.authenticator = for {
       user <- Props.get("mail.user")
       pass <- Props.get("mail.password")
