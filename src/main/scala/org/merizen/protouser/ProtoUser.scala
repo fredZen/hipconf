@@ -3,6 +3,7 @@ package org.merizen.protouser
 import net.liftweb.common.Full
 import net.liftweb.http.{S, SHtml}
 import net.liftweb.proto.{ProtoUser => UnderlyingProtoUser}
+import net.liftweb.record.field.PasswordField
 import net.liftweb.util.BaseField
 import net.liftweb.util.Helpers._
 
@@ -16,15 +17,18 @@ trait ProtoUser extends UnderlyingProtoUser {
       field <- computeFieldFromPointer(user, pointer).toList
       if field.show_? && (!ignorePassword || !pointer.isPasswordField_?)
       form <- field.toForm.toList
-      finalField <- if(pointer.isPasswordField_?) {
-        val pwd = SHtml.password_*("",(p: List[String]) =>
-          user.setPasswordFromListString(p),
-          "tabindex" -> "1"
-        )
+      finalField <- field match {
+        case pwdfield: PasswordField[_] =>
+          val pwd = SHtml.password_*("", (p: List[String]) =>
+            user.setPasswordFromListString(p),
+            "tabindex" -> "1"
+          )
 
-        inputLine(field.displayName, pwd ++ messageForField(field)) ++
-        inputLine(S.?("repeat"), pwd)
-      } else inputLine(field.displayName, form ++ messageForField(field))
+          inputLine(field.displayName, pwd ++ messageForField(field)) ++
+            inputLine(S.?("repeat"), pwd)
+        case _ =>
+          inputLine(field.displayName, form ++ messageForField(field))
+      }
     } yield finalField
 
   private def inputLine(displayName: String, form: NodeSeq): Node =
