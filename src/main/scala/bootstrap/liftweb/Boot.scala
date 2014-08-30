@@ -4,15 +4,18 @@ import java.sql.DriverManager
 import javax.mail.{Authenticator, PasswordAuthentication}
 
 import net.liftmodules.JQueryModule
-import net.liftweb.http.{Html5Properties, LiftRules, Req, S}
 import net.liftweb.sitemap.{Menu, SiteMap}
 import net.liftweb.squerylrecord.RecordTypeMode._
 import net.liftweb.squerylrecord.SquerylRecord
-import net.liftweb.util.{Props, Mailer, LiftFlowOfControlException, LoanWrapper}
 import org.merizen.hipconf.persistance.HipConfRepository
 import org.merizen.hipconf.user.User
 import org.squeryl.Session
 import org.squeryl.internals.DatabaseAdapter
+import net.liftweb.common._
+import net.liftweb.http._
+import net.liftweb.util.Helpers._
+import net.liftweb.util.Vendor._
+import net.liftweb.util._
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -22,6 +25,10 @@ class Boot {
   def boot(): Unit = {
     LiftRules.addToPackages("org.merizen.hipconf.snippet")
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
+    LiftRules.noticesAutoFadeOut.default.set((_: NoticeType.Value) match {
+      case NoticeType.Notice => Full((2.seconds, 2.seconds))
+      case _ => Empty
+    })
     setupMailer()
     setupDatabase()
     LiftRules.setSiteMap(siteMap)
