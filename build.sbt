@@ -6,6 +6,8 @@ version := "0.1-SNAPSHOT"
 
 scalaVersion := "2.11.2"
 
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
+
 val liftFamily = "2.6"
 val liftVersion = liftFamily + "-RC1"
 val h2Version = "1.3.176"
