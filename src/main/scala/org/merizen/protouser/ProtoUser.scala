@@ -6,7 +6,7 @@ import net.liftweb.proto.{ProtoUser => UnderlyingProtoUser}
 import net.liftweb.util.BaseField
 import net.liftweb.util.Helpers._
 
-import scala.xml.NodeSeq
+import scala.xml.{Node, NodeSeq}
 
 trait ProtoUser extends UnderlyingProtoUser {
 
@@ -17,12 +17,13 @@ trait ProtoUser extends UnderlyingProtoUser {
       if field.show_? && (!ignorePassword || !pointer.isPasswordField_?)
       form <- field.toForm.toList
       finalField <- if(pointer.isPasswordField_?) {
-        <tr><td>{ S.?("password") }</td><td><user:pwd/>{messageForField(field)}</td></tr>
-        <tr><td>{ S.?("repeat") }</td><td><user:pwd/></td></tr>
-      } else {
-        <tr><td>{field.displayName}</td><td>{form}{messageForField(field)}</td></tr>
-      }
+        inputLine(S.?("password"), <user:pwd/> ++ messageForField(field)) ++
+        inputLine(S.?("repeat"), <user:pwd/>)
+      } else inputLine(field.displayName, form ++ messageForField(field))
     } yield finalField
+
+  private def inputLine(displayName: String, form: NodeSeq): Node =
+    <tr><td>{displayName}</td><td>{form}</td></tr>
 
   private def messageForField(field: BaseField): NodeSeq = (
     for {
