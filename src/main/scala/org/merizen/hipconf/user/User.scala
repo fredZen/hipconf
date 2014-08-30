@@ -9,6 +9,7 @@ import org.merizen.hipconf.persistance.HipConfRepository
 import org.merizen.hipconf.persistance.HipConfRepository._
 import org.merizen.protouser.MetaMegaProtoUser
 import org.squeryl.{KeyedEntity, Query}
+import net.liftweb.util.Helpers._
 
 import scala.xml.Node
 
@@ -36,7 +37,9 @@ object User extends User with MetaMegaProtoUser[User] {
   override protected def findUserByUserName(email: String): Box[User] =
     byEmail(email).headOption
 
-  override protected def userFromStringId(id: String): Box[User] = findUserByUniqueId(id)
+  override protected def userFromStringId(id: String): Box[User] = tryo {
+    byId(id.toLong).single
+  }
 
   override protected def findUserByUniqueId(uniqueId: String): Box[User] =
       HipConfRepository.users.where(_.uniqueId === uniqueId).headOption
