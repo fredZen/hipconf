@@ -20,10 +20,9 @@ trait ProtoUser extends UnderlyingProtoUser {
       finalField <- field match {
         case pwdfield: PasswordField[_] =>
           val pwd = SHtml.password_*("", (p: List[String]) =>
-            user.setPasswordFromListString(p),
-            "tabindex" -> "1"
+            pwdfield.setFromAny(p),
+            "tabindex" -> pwdfield.tabIndex.toString
           )
-
           inputLine(field.displayName, pwd ++ messageForField(field)) ++
             inputLine(S.?("repeat"), pwd)
         case _ =>
