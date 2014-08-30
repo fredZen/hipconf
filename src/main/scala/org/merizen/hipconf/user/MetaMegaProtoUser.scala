@@ -1,4 +1,4 @@
-package org.merizen.protouser
+package org.merizen.hipconf.user
 
 import net.liftweb.record.{MegaProtoUser, MetaMegaProtoUser => UnderlyingMetaMegaProtoUser}
 

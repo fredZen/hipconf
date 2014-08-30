@@ -1,13 +1,12 @@
 package org.merizen.hipconf.user
 
-import net.liftweb.common.{Box, Empty, Full}
+import net.liftweb.common.{Box, Full}
 import net.liftweb.record.MegaProtoUser
 import net.liftweb.record.field.LongField
 import net.liftweb.squerylrecord.RecordTypeMode._
 import net.liftweb.util.FieldError
 import org.merizen.hipconf.persistance.HipConfRepository
 import org.merizen.hipconf.persistance.HipConfRepository._
-import org.merizen.protouser.MetaMegaProtoUser
 import org.squeryl.{KeyedEntity, Query}
 import net.liftweb.util.Helpers._
 

@@ -1,4 +1,4 @@
-package org.merizen.protouser
+package org.merizen.hipconf.user
 
 import net.liftweb.http.{S, SHtml}
 import net.liftweb.proto.{ProtoUser => UnderlyingProtoUser}
