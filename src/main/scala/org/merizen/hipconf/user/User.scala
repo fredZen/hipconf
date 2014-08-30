@@ -23,10 +23,7 @@ class User extends MegaProtoUser[User] with KeyedEntity[LongField[User]] {
     else
       List(FieldError(this.email, errorMsg))
 
-  override def saveTheRecord(): Box[User] = {
-    this.save
-    Full(this)
-  }
+  override def saveTheRecord(): Box[User] = Full(users.insertOrUpdate(this))
 }
 
 object User extends User with MetaMegaProtoUser[User] {
