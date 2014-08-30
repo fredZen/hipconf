@@ -1,6 +1,5 @@
 package org.merizen.protouser
 
-import net.liftweb.common.Full
 import net.liftweb.http.{S, SHtml}
 import net.liftweb.proto.{ProtoUser => UnderlyingProtoUser}
 import net.liftweb.record.field.PasswordField
@@ -16,19 +15,24 @@ trait ProtoUser extends UnderlyingProtoUser {
       pointer <- fields
       field <- computeFieldFromPointer(user, pointer).toList
       if field.show_? && (!ignorePassword || !pointer.isPasswordField_?)
-      form <- field.toForm.toList
-      finalField <- field match {
-        case pwdfield: PasswordField[_] =>
-          val pwd = SHtml.password_*("", (p: List[String]) =>
-            pwdfield.setFromAny(p),
-            "tabindex" -> pwdfield.tabIndex.toString
-          )
-          inputLine(field.displayName, pwd ++ messageForField(field)) ++
-            inputLine(S.?("repeat"), pwd)
-        case _ =>
-          inputLine(field.displayName, form ++ messageForField(field))
-      }
+      finalField <- toInputLines(field)
     } yield finalField
+
+  private def toInputLines(field: BaseField): NodeSeq = field match {
+    case field: PasswordField[_] =>
+      val pwd = passwordInput(field)
+      inputLine(field.displayName, pwd ++ messageForField(field)) ++ inputLine(S.?("repeat"), pwd)
+    case _ =>
+      for (form <- field.toForm.toList) yield inputLine(field.displayName, form ++ messageForField(field))
+  }
+
+  private def passwordInput(field: PasswordField[_]): Node = {
+    SHtml.password_*(
+      field.valueBox openOr "",
+      (p: List[String]) => field.setFromAny(p),
+      "tabindex" -> field.tabIndex.toString
+    )
+  }
 
   private def inputLine(displayName: String, form: NodeSeq): Node =
     <tr><td>{displayName}</td><td>{form}</td></tr>
