@@ -9,7 +9,6 @@ import net.liftweb.util.Helpers._
 import scala.xml.{Node, NodeSeq}
 
 trait ProtoUser extends UnderlyingProtoUser {
-
   protected override def localForm(user: TheUserType, ignorePassword: Boolean, fields: List[FieldPointerType]): NodeSeq =
     for {
       pointer <- fields

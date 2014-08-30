@@ -1,21 +1,20 @@
 package org.merizen.hipconf.user
 
 import net.liftweb.common.{Box, Full}
-import net.liftweb.record.MegaProtoUser
 import net.liftweb.record.field.LongField
+import net.liftweb.record.{MegaProtoUser, MetaMegaProtoUser}
 import net.liftweb.squerylrecord.RecordTypeMode._
 import net.liftweb.util.FieldError
-import org.merizen.hipconf.persistance.HipConfRepository
-import org.merizen.hipconf.persistance.HipConfRepository._
-import org.squeryl.{KeyedEntity, Query}
 import net.liftweb.util.Helpers._
+import org.merizen.hipconf.persistance.HipConfRepository.{sessionAuthors, users}
+import org.squeryl.{KeyedEntity, Query}
 
 import scala.xml.Node
 
-class User extends MegaProtoUser[User] with KeyedEntity[LongField[User]] {
+class User extends MegaProtoUser[User] with KeyedEntity[LongField[User]]{
   override def meta = User
 
-  lazy val sessions = HipConfRepository.sessionAuthors.right(this)
+  lazy val sessions = sessionAuthors.right(this)
 
   override protected def valUnique(errorMsg: => String)(email: String): List[FieldError] =
     if (User.byEmail(email).isEmpty)
@@ -26,12 +25,12 @@ class User extends MegaProtoUser[User] with KeyedEntity[LongField[User]] {
   override def saveTheRecord(): Box[User] = Full(users.insertOrUpdate(this))
 }
 
-object User extends User with MetaMegaProtoUser[User] {
+object User extends User with MetaMegaProtoUser[User] with ProtoUser {
   def byEmail(email: String): Query[User] =
-    HipConfRepository.users.where(_.email === email)
+    users.where(_.email === email)
 
   def byId(id: Long): Query[User] =
-    HipConfRepository.users.where(_.id === id)
+    users.where(_.id === id)
 
   override protected def findUserByUserName(email: String): Box[User] =
     byEmail(email).headOption
@@ -41,7 +40,7 @@ object User extends User with MetaMegaProtoUser[User] {
   }
 
   override protected def findUserByUniqueId(uniqueId: String): Box[User] =
-      HipConfRepository.users.where(_.uniqueId === uniqueId).headOption
+      users.where(_.uniqueId === uniqueId).headOption
 
   override def screenWrap: Box[Node] = Full(
     <lift:surround with="default" at="contents">
