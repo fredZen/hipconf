@@ -17,8 +17,13 @@ trait ProtoUser extends UnderlyingProtoUser {
       if field.show_? && (!ignorePassword || !pointer.isPasswordField_?)
       form <- field.toForm.toList
       finalField <- if(pointer.isPasswordField_?) {
-        inputLine(field.displayName, <user:pwd/> ++ messageForField(field)) ++
-        inputLine(S.?("repeat"), <user:pwd/>)
+        val pwd = SHtml.password_*("",(p: List[String]) =>
+          user.setPasswordFromListString(p),
+          "tabindex" -> "1"
+        )
+
+        inputLine(field.displayName, pwd ++ messageForField(field)) ++
+        inputLine(S.?("repeat"), pwd)
       } else inputLine(field.displayName, form ++ messageForField(field))
     } yield finalField
 
@@ -29,27 +34,4 @@ trait ProtoUser extends UnderlyingProtoUser {
     for {
       idField <- field.uniqueFieldId
     } yield <lift:Msg id={idField}>message</lift:Msg>).getOrElse(Nil)
-
-  override def signup = {
-    val theUser: TheUserType = mutateUserOnSignup(createNewUserInstance())
-
-    def testSignup() {
-      validateSignup(theUser) match {
-        case Nil =>
-          actionsAfterSignup(theUser, () => S.redirectTo(homePage))
-
-        case xs => S.error(xs) ; signupFunc(Full(innerSignup _))
-      }
-    }
-
-    def innerSignup = bind("user",
-      signupXhtml(theUser),
-      "pwd" -> SHtml.password_*("",(p: List[String]) =>
-        theUser.setPasswordFromListString(p),
-        "tabindex" -> "1"
-      ),
-      "submit" -> signupSubmitButton(S.?("sign.up"), testSignup))
-
-    innerSignup
-  }
 }
