@@ -17,7 +17,7 @@ trait ProtoUser extends UnderlyingProtoUser {
       if field.show_? && (!ignorePassword || !pointer.isPasswordField_?)
       form <- field.toForm.toList
       finalField <- if(pointer.isPasswordField_?) {
-        inputLine(S.?("password"), <user:pwd/> ++ messageForField(field)) ++
+        inputLine(field.displayName, <user:pwd/> ++ messageForField(field)) ++
         inputLine(S.?("repeat"), <user:pwd/>)
       } else inputLine(field.displayName, form ++ messageForField(field))
     } yield finalField
