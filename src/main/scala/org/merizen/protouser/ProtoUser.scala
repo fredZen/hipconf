@@ -5,15 +5,22 @@ import net.liftweb.http.{S, SHtml}
 import net.liftweb.proto.{ProtoUser => UnderlyingProtoUser}
 import net.liftweb.util.Helpers._
 
+import scala.xml.NodeSeq
+
 trait ProtoUser extends UnderlyingProtoUser {
-  override def signupXhtml(user: TheUserType) = {
-    <form method="post" action={S.uri}><table><tr><td
-    colspan="2">{ S.?("sign.up") }</td></tr>
-      {localForm(user, ignorePassword = true, signupFields)}
-      <tr><td>{ S.?("password") }</td><td><user:pwd/></td></tr>
-      <tr><td>{ S.?("repeat") }</td><td><user:pwd/></td></tr>
-      <tr><td>&nbsp;</td><td><user:submit/></td></tr>
-    </table></form>
+  protected override def localForm(user: TheUserType, ignorePassword: Boolean, fields: List[FieldPointerType]): NodeSeq = {
+    for {
+      pointer <- fields
+      field <- computeFieldFromPointer(user, pointer).toList
+      if field.show_? && (!ignorePassword || !pointer.isPasswordField_?)
+      form <- field.toForm.toList
+      finalField <- if(pointer.isPasswordField_?) {
+        <tr><td>{ S.?("password") }</td><td><user:pwd/></td></tr>
+        <tr><td>{ S.?("repeat") }</td><td><user:pwd/></td></tr>
+      } else {
+        <tr><td>{field.displayName}</td><td>{form}</td></tr>
+      }
+    } yield finalField
   }
 
   override def signup = {
