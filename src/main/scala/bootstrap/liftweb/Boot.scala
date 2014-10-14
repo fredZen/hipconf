@@ -27,7 +27,16 @@ class Boot {
 
 
 
+  private def setupMailer(): Unit = {
+    import javax.mail.{Authenticator, PasswordAuthentication}
 
+    Mailer.authenticator = for {
+      user <- Props.get("mail.user")
+      pass <- Props.get("mail.password")
+    } yield new Authenticator {
+        override def getPasswordAuthentication =
+          new PasswordAuthentication(user, pass)
+      }
   }
 
   private def setupDatabase(): Unit = {
@@ -99,17 +108,5 @@ import net.liftweb.squerylrecord.RecordTypeMode._
 
     JQueryModule.InitParam.JQuery = JQueryModule.JQuery111Z
     JQueryModule.init()
-  }
-
-  private def setupMailer(): Unit = {
-    import javax.mail.{Authenticator, PasswordAuthentication}
-
-    Mailer.authenticator = for {
-      user <- Props.get("mail.user")
-      pass <- Props.get("mail.password")
-    } yield new Authenticator {
-        override def getPasswordAuthentication =
-          new PasswordAuthentication(user, pass)
-      }
   }
 }
