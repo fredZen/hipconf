@@ -46,18 +46,14 @@ class Boot {
   private def setupDatabase(): Unit = {
     import java.sql.DriverManager
 
-    import net.liftweb.squerylrecord.RecordTypeMode._
     import net.liftweb.squerylrecord.SquerylRecord
-    import org.merizen.hipconf.persistance.HipConfSchema
     import org.squeryl.Session
     import org.squeryl.internals.DatabaseAdapter
 
+    val initializer = new DropCreateDatabaseInitializer
     connectToDatabase()
     setupTransactionRequestWrapper()
-    inTransaction {
-      HipConfSchema.drop
-      HipConfSchema.create
-    }
+    initializer.setupDatabaseStructure()
 
     def connectToDatabase(): Unit = {
       for {
@@ -74,6 +70,7 @@ class Boot {
       }
     }
     def setupTransactionRequestWrapper(): Unit = {
+      import net.liftweb.squerylrecord.RecordTypeMode._
 
       S.addAround(new LoanWrapper {
         override def apply[T](f: => T): T = {
