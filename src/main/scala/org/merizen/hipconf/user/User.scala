@@ -6,7 +6,7 @@ import net.liftweb.record.{MegaProtoUser, MetaMegaProtoUser}
 import net.liftweb.squerylrecord.RecordTypeMode._
 import net.liftweb.util.FieldError
 import net.liftweb.util.Helpers._
-import org.merizen.hipconf.persistance.HipConfRepository.{sessionAuthors, users}
+import org.merizen.hipconf.persistance.HipConfSchema.{sessionAuthors, users}
 import org.squeryl.{KeyedEntity, Query}
 
 import scala.xml.Node

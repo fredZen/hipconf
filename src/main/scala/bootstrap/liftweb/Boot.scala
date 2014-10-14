@@ -48,15 +48,15 @@ class Boot {
 
 import net.liftweb.squerylrecord.RecordTypeMode._
     import net.liftweb.squerylrecord.SquerylRecord
-    import org.merizen.hipconf.persistance.HipConfRepository
+    import org.merizen.hipconf.persistance.HipConfSchema
     import org.squeryl.Session
     import org.squeryl.internals.DatabaseAdapter
 
     connectToDatabase()
     wrapAllRequestsInTransaction()
     inTransaction {
-      HipConfRepository.drop
-      HipConfRepository.create
+      HipConfSchema.drop
+      HipConfSchema.create
     }
 
     def connectToDatabase(): Unit = {

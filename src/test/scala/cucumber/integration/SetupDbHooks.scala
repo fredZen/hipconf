@@ -4,7 +4,7 @@ import java.sql.DriverManager
 
 import cucumber.util.GlobalCucumberHooks
 import net.liftweb.squerylrecord.SquerylRecord
-import org.merizen.hipconf.persistance.HipConfRepository
+import org.merizen.hipconf.persistance.HipConfSchema
 import org.squeryl.Session
 import org.squeryl.adapters.H2Adapter
 import net.liftweb.squerylrecord.RecordTypeMode._
@@ -18,7 +18,7 @@ class SetupDbHooks extends GlobalCucumberHooks {
     SquerylRecord.initWithSquerylSession(Session.create(connection, new H2Adapter))
 
     inTransaction {
-      HipConfRepository.create
+      HipConfSchema.create
     }
   }
 }

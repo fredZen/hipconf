@@ -5,7 +5,7 @@ import org.merizen.hipconf.user.User
 import org.squeryl.Schema
 import net.liftweb.squerylrecord.RecordTypeMode._
 
-object HipConfRepository extends Schema {
+object HipConfSchema extends Schema {
   val users = table[User]
   val sessions = table[Session]
   val sessionAuthors =

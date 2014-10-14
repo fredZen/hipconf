@@ -2,7 +2,7 @@ package cucumber.integration
 
 import cucumber.stepprototypes.SessionStepPrototypes
 import net.liftweb.squerylrecord.RecordTypeMode._
-import org.merizen.hipconf.persistance.HipConfRepository._
+import org.merizen.hipconf.persistance.HipConfSchema._
 import org.merizen.hipconf.session.Session
 import org.scalatest.ShouldMatchers
 

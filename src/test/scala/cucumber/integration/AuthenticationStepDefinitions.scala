@@ -3,7 +3,7 @@ package cucumber.integration
 import cucumber.stepprototypes.AuthenticationStepPrototypes
 import org.merizen.hipconf.user.User
 import net.liftweb.squerylrecord.RecordTypeMode._
-import org.merizen.hipconf.persistance.HipConfRepository._
+import org.merizen.hipconf.persistance.HipConfSchema._
 
 object AuthenticationStepDefinitions extends AuthenticationStepPrototypes {
   var currentUser: Option[User] = None
