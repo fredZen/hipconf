@@ -25,17 +25,9 @@ class Boot {
     provideJQuery()
   }
 
-  private def siteMap: SiteMap = {
-    import org.merizen.hipconf.user.User
 
-    def siteMapMutator = User.sitemapMutator
 
-    def siteMapTemplate: SiteMap =
-      SiteMap(
-        Menu.i("Home") / "index" >> User.AddUserMenusAfter
-      )
 
-    siteMapMutator(siteMapTemplate)
   }
 
   private def setupDatabase(): Unit = {
@@ -87,6 +79,19 @@ import net.liftweb.squerylrecord.RecordTypeMode._
         }
       })
     }
+  }
+
+  private def siteMap: SiteMap = {
+    import org.merizen.hipconf.user.User
+
+    def siteMapMutator = User.sitemapMutator
+
+    val siteMapTemplate =
+      SiteMap(
+        Menu.i("Home") / "index" >> User.AddUserMenusAfter
+      )
+
+    siteMapMutator(siteMapTemplate)
   }
 
   private def provideJQuery(): Unit = {
