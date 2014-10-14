@@ -9,7 +9,7 @@ object HipConfSchema extends Schema {
   val users = table[User]
   val sessions = table[Session]
   val sessionAuthors =
-    manyToManyRelation(sessions, users).
+    manyToManyRelation(sessions, users, "SESSION_AUTHOR").
     via[Author] { (session, user, author) =>
       (author.sessionId === session.id, author.userId === user.id)
     }
