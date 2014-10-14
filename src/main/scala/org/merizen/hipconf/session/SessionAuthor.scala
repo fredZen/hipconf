@@ -7,8 +7,8 @@ import org.squeryl.annotations._
 import org.squeryl.dsl.CompositeKey2
 import net.liftweb.squerylrecord.RecordTypeMode._
 
-class Author extends Record[Author] with KeyedEntity[CompositeKey2[LongField[Author], LongField[Author]]] {
-  override def meta: MetaRecord[Author] = Author
+class SessionAuthor extends Record[SessionAuthor] with KeyedEntity[CompositeKey2[LongField[SessionAuthor], LongField[SessionAuthor]]] {
+  override def meta: MetaRecord[SessionAuthor] = SessionAuthor
 
   override def id = compositeKey(sessionId, userId)
   @Column(name = "SESSION_ID")
@@ -17,4 +17,4 @@ class Author extends Record[Author] with KeyedEntity[CompositeKey2[LongField[Aut
   val userId = new LongField(this)
 }
 
-object Author extends Author with MetaRecord[Author]
+object SessionAuthor extends SessionAuthor with MetaRecord[SessionAuthor]

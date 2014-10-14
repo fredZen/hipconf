@@ -50,10 +50,8 @@ class Boot {
     import org.squeryl.Session
     import org.squeryl.internals.DatabaseAdapter
 
-    val initializer = new DropCreateDatabaseInitializer
     connectToDatabase()
     setupTransactionRequestWrapper()
-    initializer.setupDatabaseStructure()
 
     def connectToDatabase(): Unit = {
       for {
@@ -66,6 +64,8 @@ class Boot {
         Class.forName(driver)
         val adapter: DatabaseAdapter = Class.forName(adapterClass).newInstance().asInstanceOf[DatabaseAdapter]
         def connection = DriverManager.getConnection(url, user, pass)
+        val initializer = new LiquibaseDatabaseInitializer(connection)
+        initializer.setupDatabaseStructure()
         SquerylRecord.initWithSquerylSession(Session.create(connection, adapter))
       }
     }

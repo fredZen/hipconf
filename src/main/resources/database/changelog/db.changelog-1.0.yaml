@@ -1,0 +1,154 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1413232604897-1
+      author: frederic-merizen
+      changes:
+      - createTable:
+          tableName: SESSION_AUTHOR
+          columns:
+          - column:
+              name: SESSION_ID
+              type: BIGINT(19)
+              constraints:
+                constraints:
+                  nullable: false
+          - column:
+              name: USER_ID
+              type: BIGINT(19)
+              constraints:
+                constraints:
+                  nullable: false
+
+  - changeSet:
+      id: 1413232604897-2
+      author: frederic-merizen
+      changes:
+      - createTable:
+          tableName: SESSION
+          columns:
+          - column:
+              name: ID
+              type: BIGINT(19)
+              autoIncrement: true
+              constraints:
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: CONSTRAINT_A
+          - column:
+              name: TITLE
+              type: VARCHAR(100)
+              constraints:
+                constraints:
+                  nullable: false
+
+  - changeSet:
+      id: 1413232604897-3
+      author: frederic-merizen
+      changes:
+      - createTable:
+          tableName: USER
+          columns:
+          - column:
+              name: ID
+              type: BIGINT(19)
+              autoIncrement: true
+              constraints:
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: CONSTRAINT_2
+          - column:
+              name: EMAIL
+              type: VARCHAR(48)
+              constraints:
+                constraints:
+                  nullable: false
+          - column:
+              name: TIMEZONE
+              type: VARCHAR(32)
+              constraints:
+                constraints:
+                  nullable: false
+          - column:
+              name: VALIDATED
+              type: BOOLEAN(1)
+              constraints:
+                constraints:
+                  nullable: false
+          - column:
+              name: LOCALE
+              type: VARCHAR(16)
+              constraints:
+                constraints:
+                  nullable: false
+          - column:
+              name: LASTNAME
+              type: VARCHAR(32)
+              constraints:
+                constraints:
+                  nullable: false
+          - column:
+              name: FIRSTNAME
+              type: VARCHAR(32)
+              constraints:
+                constraints:
+                  nullable: false
+          - column:
+              name: SUPERUSER
+              type: BOOLEAN(1)
+              constraints:
+                constraints:
+                  nullable: false
+          - column:
+              name: UNIQUEID
+              type: VARCHAR(32)
+              constraints:
+                constraints:
+                  nullable: false
+          - column:
+              name: PASSWORD
+              type: VARCHAR(128)
+              constraints:
+                constraints:
+                  nullable: false
+
+  - changeSet:
+      id: 1413232604897-4
+      author: frederic-merizen
+      changes:
+      - addUniqueConstraint:
+          constraintName: SESSION_AUTHORCPK
+          tableName: SESSION_AUTHOR
+          columnNames: SESSION_ID,USER_ID
+          deferrable: false
+          disabled: false
+          initiallyDeferred: false
+
+  - changeSet:
+      id: 1413232604897-5
+      author: frederic-merizen
+      changes:
+      - addForeignKeyConstraint:
+          constraintName: SESSION_AUTHORFK1
+          baseColumnNames: SESSION_ID
+          baseTableName: SESSION_AUTHOR
+          referencedColumnNames: ID
+          referencedTableName: SESSION
+          deferrable: false
+          initiallyDeferred: false
+          onDelete: RESTRICT
+          onUpdate: RESTRICT
+
+  - changeSet:
+      id: 1413232604897-6
+      author: frederic-merizen
+      changes:
+      - addForeignKeyConstraint:
+          constraintName: SESSION_AUTHORFK2
+          baseColumnNames: USER_ID
+          baseTableName: SESSION_AUTHOR
+          referencedColumnNames: ID
+          referencedTableName: USER
+          deferrable: false
+          initiallyDeferred: false
+          onDelete: RESTRICT
+          onUpdate: RESTRICT
