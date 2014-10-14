@@ -15,17 +15,21 @@ class Boot {
   def boot(): Unit = {
     LiftRules.addToPackages("org.merizen.hipconf.snippet")
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
-    LiftRules.noticesAutoFadeOut.default.set((_: NoticeType.Value) match {
-      case NoticeType.Notice => Full((2.seconds, 2.seconds))
-      case _ => Empty
-    })
+    autoFadeOutNotices()
     setupMailer()
     setupDatabase()
     LiftRules.setSiteMap(siteMap)
     provideJQuery()
   }
 
+  private def autoFadeOutNotices(): Unit= {
+    import net.liftweb.http.NoticeType.Value
 
+    LiftRules.noticesAutoFadeOut.default.set((_: Value) match {
+      case NoticeType.Notice => Full((2.seconds, 2.seconds))
+      case _ => Empty
+    })
+  }
 
   private def setupMailer(): Unit = {
     import javax.mail.{Authenticator, PasswordAuthentication}
