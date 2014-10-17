@@ -1,11 +1,11 @@
 #lift__noticesContainer___notice {
-    background-color: green;
+    background-color: #cfd;
 }
 
 #lift__noticesContainer___warning {
-    background-color: yellow;
+    background-color: #ff9;
 }
 
 #lift__noticesContainer___error {
-    background-color: red;
+    background-color: #fca;
 }
