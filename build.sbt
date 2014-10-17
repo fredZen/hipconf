@@ -14,6 +14,7 @@ val h2Version = "1.3.176"
 val logbackVersion = "1.1.2"
 val liquibaseVersion = "3.2.2"
 val snakeYamlVersion = "1.14"
+val normalizeCssVersion = "3.0.1"
 val cucumberVersion = "1.1.8"
 val junitVersion = "4.11"
 val seleniumVersion = "2.42.2"
@@ -41,7 +42,8 @@ libraryDependencies ++= scope("compile",
   "com.h2database" % "h2" % h2Version,
   "ch.qos.logback" % "logback-classic" % logbackVersion,
   "org.liquibase" % "liquibase-core" % liquibaseVersion,
-  "org.yaml" % "snakeyaml" % snakeYamlVersion
+  "org.yaml" % "snakeyaml" % snakeYamlVersion,
+  "org.webjars" % "normalize.css" % normalizeCssVersion
 )
 
 libraryDependencies ++= scope("test",
