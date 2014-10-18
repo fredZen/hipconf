@@ -43,7 +43,7 @@ object User extends User with MetaMegaProtoUser[User] with ProtoUser {
       users.where(_.uniqueId === uniqueId).headOption
 
   override def screenWrap: Box[Node] = Full(
-    <lift:surround with="default" at="contents">
+    <lift:surround with="default" at="content">
       <lift:bind/>
     </lift:surround>
   )
