@@ -37,3 +37,15 @@
     background-color: #369;
     color: #fff;
 }
+
+.cf:before,
+.cf:after {
+    content:"";
+    display:table;
+}
+.cf:after {
+    clear:both;
+}
+.cf {
+    zoom:1;
+}
