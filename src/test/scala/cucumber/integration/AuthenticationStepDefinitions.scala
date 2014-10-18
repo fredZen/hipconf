@@ -9,7 +9,7 @@ object AuthenticationStepDefinitions extends AuthenticationStepPrototypes {
   var currentUser: Option[User] = None
 
   override def userIsLoggedIn(userName: String): Unit = inTransaction {
-    val user = new User
+    val user = User.createRecord
     user.firstName(userName)
     user.save
     currentUser = Some(user)

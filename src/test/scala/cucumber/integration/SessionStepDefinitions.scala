@@ -10,7 +10,7 @@ object SessionStepDefinitions extends SessionStepPrototypes with ShouldMatchers 
   var sessionUnderEdition: Option[Session] = None
 
   override def createSessionTitled(sessionTitle: String): Unit = inTransaction {
-    val session = new Session
+    val session = Session.createRecord
     session.title(sessionTitle)
     sessionUnderEdition = Some(session)
   }

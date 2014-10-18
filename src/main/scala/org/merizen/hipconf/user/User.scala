@@ -11,7 +11,7 @@ import org.squeryl.{KeyedEntity, Query}
 
 import scala.xml.Node
 
-class User extends MegaProtoUser[User] with KeyedEntity[LongField[User]]{
+class User private() extends MegaProtoUser[User] with KeyedEntity[LongField[User]]{
   override def meta = User
 
   lazy val sessions = sessionAuthors.right(this)

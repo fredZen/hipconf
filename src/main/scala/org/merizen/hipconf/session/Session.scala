@@ -6,7 +6,7 @@ import net.liftweb.squerylrecord.KeyedRecord
 import org.merizen.hipconf.persistance.HipConfSchema
 import org.squeryl.annotations.Column
 
-class Session extends Record[Session] with KeyedRecord[Long] {
+class Session private() extends Record[Session] with KeyedRecord[Long] {
   override def meta: MetaRecord[Session] = Session
 
   @Column(name = "ID")
