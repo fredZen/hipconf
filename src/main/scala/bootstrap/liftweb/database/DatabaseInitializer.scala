@@ -1,4 +1,4 @@
-package bootstrap.liftweb
+package bootstrap.liftweb.database
 
 trait DatabaseInitializer {
   def setupDatabaseStructure(): Unit

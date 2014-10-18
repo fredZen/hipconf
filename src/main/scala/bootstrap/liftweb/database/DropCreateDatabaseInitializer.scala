@@ -1,4 +1,4 @@
-package bootstrap.liftweb
+package bootstrap.liftweb.database
 
 import net.liftweb.squerylrecord.RecordTypeMode._
 import org.merizen.hipconf.persistance.HipConfSchema

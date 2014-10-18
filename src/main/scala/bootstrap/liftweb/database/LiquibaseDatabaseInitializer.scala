@@ -1,4 +1,4 @@
-package bootstrap.liftweb
+package bootstrap.liftweb.database
 
 import java.sql.{Connection, SQLException}
 
