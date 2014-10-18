@@ -10,7 +10,9 @@ class Session private() extends Record[Session] with KeyedRecord[Long] {
   override def meta: MetaRecord[Session] = Session
 
   @Column(name = "ID")
-  override val idField = new LongField(this)
+  override val idField = new LongField(this) {
+    override def shouldDisplay_? : Boolean = false
+  }
   val title = new StringField(this, 100)
   lazy val authors = HipConfSchema.sessionAuthors.left(this)
 }
