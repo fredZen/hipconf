@@ -19,7 +19,6 @@ class Boot {
     setupMailer()
     setupDatabase()
     LiftRules.setSiteMap(siteMap)
-    provideJQuery()
   }
 
   private def autoFadeOutNotices(): Unit= {
@@ -102,12 +101,5 @@ class Boot {
       )
 
     siteMapMutator(siteMapTemplate)
-  }
-
-  private def provideJQuery(): Unit = {
-    import net.liftmodules.JQueryModule
-
-    JQueryModule.InitParam.JQuery = JQueryModule.JQuery111Z
-    JQueryModule.init()
   }
 }
