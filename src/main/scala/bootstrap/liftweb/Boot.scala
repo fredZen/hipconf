@@ -13,7 +13,7 @@ import net.liftweb.util._
  */
 class Boot {
   def boot(): Unit = {
-    LiftRules.addToPackages("org.merizen.hipconf.snippet")
+    LiftRules.addToPackages("org.merizen.hipconf")
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
     autoFadeOutNotices()
     setupMailer()
