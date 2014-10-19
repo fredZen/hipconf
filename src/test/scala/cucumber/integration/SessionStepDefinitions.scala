@@ -27,6 +27,6 @@ object SessionStepDefinitions extends SessionStepPrototypes with ShouldMatchers 
         and u.firstName === authorName
         and s.title === sessionTitle)
         compute count
-    ).single.measures should be === 1
+    ).single.measures should equal (1)
   }
 }
