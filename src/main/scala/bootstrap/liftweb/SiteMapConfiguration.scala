@@ -11,7 +11,7 @@ import scala.language.implicitConversions
 object SiteMapConfiguration extends Configuration with Modules {
   private val siteMapTemplate =
     SiteMap(
-      Menu.i("Home") / "index" >> user.Module
+      Menu.i("menu.home") / "index" >> user.Module
     )
 
   def setup(): Unit = {
