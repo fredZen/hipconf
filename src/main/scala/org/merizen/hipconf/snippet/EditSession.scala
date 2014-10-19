@@ -1,13 +1,9 @@
 package org.merizen.hipconf.snippet
 
-import net.liftweb.http.{S, LiftScreen}
+import net.liftweb.http.LiftScreen
+import org.merizen.hipconf.session.Session
 
 class EditSession extends LiftScreen {
-  val flavor = field(S ? "What's your favorite Ice cream flavor", "",
-    trim,
-    valMinLen(2, "Name too short"),
-    valMaxLen(40, "That's a long name"))
-  override def finish() {
-    S.notice("I like "+flavor.is+" too!")
-  }
+  addFields(Session.createRecord _)
+  def finish() = ???
 }

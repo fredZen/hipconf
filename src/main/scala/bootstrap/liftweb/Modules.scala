@@ -4,5 +4,5 @@ import org.merizen.hipconf._
 import org.merizen.hipconf.util.HipConfModule
 
 trait Modules {
-  val modules: Seq[HipConfModule] = Seq(user.Module)
+  val modules: Seq[HipConfModule] = Seq(user.Module, session.Module)
 }
