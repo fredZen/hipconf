@@ -6,10 +6,10 @@ import org.junit.runner.RunWith
 
 @RunWith(classOf[Cucumber])
 @CucumberOptions(
-  features = Array("src/test/resources/cucumber"),
+  features = Array("classpath:cucumber"),
   glue = Array("cucumber.integration"),
   dotcucumber = ".cucumber",
   format = Array("html:target/cucumber"),
-  tags = Array("integration")
+  tags = Array("@integration")
 )
 class RunIntegration
