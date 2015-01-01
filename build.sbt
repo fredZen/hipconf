@@ -8,6 +8,8 @@ scalaVersion := "2.11.4"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
 
+resolvers += Resolver.mavenLocal
+
 val liftFamily = "2.6"
 
 val liftVersion = liftFamily + "-RC2"
@@ -16,7 +18,7 @@ val logbackVersion = "1.1.2"
 val liquibaseVersion = "3.3.1"
 val snakeYamlVersion = "1.14"
 
-val normalizeCssVersion = "3.0.1"
+val normalizeCssVersion = "3.0.2"
 val jqueryVersion = "1.11.2"
 
 val cucumberVersion = "1.2.0"
