@@ -41,6 +41,15 @@ jrebel.webLinks += (sourceDirectory in Compile).value / "webapp"
 
 jrebelSettings
 
+javaOptions in container ++= (
+  if (! sys.env.contains("JREBEL_PATH")) Seq(
+  ) else Seq(
+   "-javaagent:" + sys.env("JREBEL_PATH"),
+   "-noverify",
+   "-XX:+UseConcMarkSweepGC",
+   "-XX:+CMSClassUnloadingEnabled"
+  ))
+
 def forConfiguration(c: Configuration, deps: ModuleID*) =
   deps map (_ % c)
 
