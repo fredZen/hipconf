@@ -62,10 +62,7 @@ libraryDependencies ++= scope("test",
   "junit" % "junit" % junitVersion,
   "com.novocode" % "junit-interface" % junitInterfaceVersion,
   "org.seleniumhq.selenium" % "selenium-java" % seleniumVersion,
-  "org.scalatest" %% "scalatest" % scalatestVersion
-)
-
-libraryDependencies ++= scope("test",
+  "org.scalatest" %% "scalatest" % scalatestVersion,
   "org.eclipse.jetty" % "jetty-webapp" % jettyVersion,
   "org.eclipse.jetty" % "jetty-plus" % jettyVersion
 )
