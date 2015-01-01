@@ -9,23 +9,23 @@ scalaVersion := "2.11.3"
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
 
 val liftFamily = "2.6"
-val liftVersion = liftFamily + "-RC1"
+val liftVersion = liftFamily + "-RC2"
 val h2Version = "1.3.176"
 val logbackVersion = "1.1.2"
-val liquibaseVersion = "3.2.2"
+val liquibaseVersion = "3.3.1"
 val snakeYamlVersion = "1.14"
 
 val normalizeCssVersion = "3.0.1"
-val jqueryVersion = "1.11.1"
+val jqueryVersion = "1.11.2"
 
-val junitVersion = "4.11"
-val seleniumVersion = "2.42.2"
 val cucumberVersion = "1.2.0"
+val junitVersion = "4.12"
 val junitInterfaceVersion = "0.11"
+val seleniumVersion = "2.44.0"
 val scalatestVersion = "2.2.1"
 val cucumberProVersion = "1.0.16"
 
-val jettyVersion = "9.1.0.v20131115"
+val jettyVersion = "9.2.6.v20141205"
 val servletApiVersion = "3.0.1"
 
 webSettings
