@@ -21,6 +21,7 @@ val jqueryVersion = "1.11.1"
 val junitVersion = "4.11"
 val seleniumVersion = "2.42.2"
 val cucumberVersion = "1.2.0"
+val junitInterfaceVersion = "0.11"
 val scalatestVersion = "2.2.1"
 val cucumberProVersion = "1.0.16"
 
@@ -56,6 +57,7 @@ libraryDependencies ++= scope("test",
   "info.cukes" %% "cucumber-scala" % cucumberVersion,
   "info.cukes" % "cucumber-pro" % cucumberProVersion,
   "junit" % "junit" % junitVersion,
+  "com.novocode" % "junit-interface" % junitInterfaceVersion,
   "org.seleniumhq.selenium" % "selenium-java" % seleniumVersion,
   "org.scalatest" %% "scalatest" % scalatestVersion
 )
