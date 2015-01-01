@@ -37,13 +37,13 @@ jrebel.webLinks += (sourceDirectory in Compile).value / "webapp"
 
 jrebelSettings
 
-def scope(scopeName: String, deps: ModuleID*) =
-  deps map (_ % scopeName)
+def forConfiguration(c: Configuration, deps: ModuleID*) =
+  deps map (_ % c)
 
 def liftModule(moduleName: String) =
   "net.liftmodules" %% (moduleName + "_" + liftFamily)
 
-libraryDependencies ++= scope("compile",
+libraryDependencies ++= forConfiguration(Compile,
   "net.liftweb" %% "lift-webkit" % liftVersion,
   "net.liftweb" %% "lift-squeryl-record" % liftVersion,
   "com.h2database" % "h2" % h2Version,
@@ -54,7 +54,7 @@ libraryDependencies ++= scope("compile",
   "org.webjars" % "normalize.css" % normalizeCssVersion
 )
 
-libraryDependencies ++= scope("test",
+libraryDependencies ++= forConfiguration(Test,
   "info.cukes" % "cucumber-core" % cucumberVersion,
   "info.cukes" % "cucumber-junit" % cucumberVersion,
   "info.cukes" %% "cucumber-scala" % cucumberVersion,
@@ -67,6 +67,6 @@ libraryDependencies ++= scope("test",
   "org.eclipse.jetty" % "jetty-plus" % jettyVersion
 )
 
-libraryDependencies ++= scope("provided",
+libraryDependencies ++= forConfiguration(Provided,
   "javax.servlet" % "javax.servlet-api" % servletApiVersion
 )
