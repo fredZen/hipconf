@@ -29,6 +29,8 @@ val cucumberProVersion = "1.0.16"
 val jettyVersion = "9.2.6.v20141205"
 val servletApiVersion = "3.0.1"
 
+val groovyVersion = "2.3.9"
+
 jetty(
   libs = Seq(("org.eclipse.jetty" % "jetty-runner" % jettyVersion % "container").intransitive)
 )
@@ -70,3 +72,8 @@ libraryDependencies ++= forConfiguration(Test,
 libraryDependencies ++= forConfiguration(Provided,
   "javax.servlet" % "javax.servlet-api" % servletApiVersion
 )
+
+libraryDependencies ++= forConfiguration(Runtime,
+  "org.codehaus.groovy" % "groovy" % groovyVersion
+)
+
