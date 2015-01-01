@@ -18,11 +18,11 @@ val snakeYamlVersion = "1.14"
 val normalizeCssVersion = "3.0.1"
 val jqueryVersion = "1.11.1"
 
-val cucumberVersion = "1.1.8"
 val junitVersion = "4.11"
 val seleniumVersion = "2.42.2"
+val cucumberVersion = "1.2.0"
 val scalatestVersion = "2.2.1"
-val cucumberProVersion = "1.0.10"
+val cucumberProVersion = "1.0.16"
 
 val jettyVersion = "9.1.0.v20131115"
 val servletApiVersion = "3.0.1"

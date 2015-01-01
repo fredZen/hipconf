@@ -8,7 +8,6 @@ import org.junit.runner.RunWith
 @CucumberOptions(
   features = Array("classpath:cucumber"),
   glue = Array("cucumber.integration"),
-  dotcucumber = ".cucumber",
   format = Array("html:target/cucumber"),
   tags = Array("@integration")
 )
