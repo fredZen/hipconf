@@ -9,6 +9,7 @@ scalaVersion := "2.11.3"
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
 
 val liftFamily = "2.6"
+
 val liftVersion = liftFamily + "-RC2"
 val h2Version = "1.3.176"
 val logbackVersion = "1.1.2"
@@ -28,9 +29,11 @@ val cucumberProVersion = "1.0.16"
 val jettyVersion = "9.2.6.v20141205"
 val servletApiVersion = "3.0.1"
 
-webSettings
+jetty(
+  libs = Seq(("org.eclipse.jetty" % "jetty-runner" % jettyVersion % "container").intransitive)
+)
 
-jrebel.webLinks <++= webappResources in Compile
+jrebel.webLinks += (sourceDirectory in Compile).value / "webapp"
 
 jrebelSettings
 
@@ -62,7 +65,7 @@ libraryDependencies ++= scope("test",
   "org.scalatest" %% "scalatest" % scalatestVersion
 )
 
-libraryDependencies ++= scope("container,test",
+libraryDependencies ++= scope("test",
   "org.eclipse.jetty" % "jetty-webapp" % jettyVersion,
   "org.eclipse.jetty" % "jetty-plus" % jettyVersion
 )
