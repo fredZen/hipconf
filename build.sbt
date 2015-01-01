@@ -4,7 +4,7 @@ name := "hipconf"
 
 version := "0.1-SNAPSHOT"
 
-scalaVersion := "2.11.3"
+scalaVersion := "2.11.4"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
 
