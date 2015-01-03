@@ -1,11 +1,8 @@
 organization := "org.merizen"
-
 name := "hipconf"
-
 version := "0.1-SNAPSHOT"
 
 scalaVersion := "2.11.4"
-
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
 
 resolvers += Resolver.mavenLocal
@@ -38,9 +35,7 @@ jetty(
 )
 
 jrebel.webLinks += (sourceDirectory in Compile).value / "webapp"
-
 jrebelSettings
-
 javaOptions in container ++= (
   if (! sys.env.contains("JREBEL_PATH")) Seq(
   ) else Seq(
