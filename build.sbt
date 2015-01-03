@@ -7,9 +7,7 @@ scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
 
 resolvers += Resolver.mavenLocal
 
-val liftFamily = "2.6"
-
-val liftVersion = liftFamily + "-RC2"
+val liftVersion = "2.6-RC2"
 val h2Version = "1.3.176"
 val logbackVersion = "1.1.2"
 val liquibaseVersion = "3.3.1"
@@ -47,9 +45,6 @@ javaOptions in container ++= (
 
 def forConfiguration(c: Configuration, deps: ModuleID*) =
   deps map (_ % c)
-
-def liftModule(moduleName: String) =
-  "net.liftmodules" %% (moduleName + "_" + liftFamily)
 
 libraryDependencies ++= forConfiguration(Compile,
   "net.liftweb" %% "lift-webkit" % liftVersion,
