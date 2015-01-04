@@ -1,4 +1,5 @@
 import Dependencies.d
+import PropertiesHelper._
 
 val webappDir = settingKey[File]("The webapp directory for the container")
 
@@ -51,6 +52,13 @@ lazy val root = configure(project in file(".")
   )
   , /* Container configuration (for container:start etc) */
   _.settings(jetty(libs = Seq((d.jetty.runner % "container").intransitive)): _*)
+  , /* Make location of webapp dir available to selenium tests */ _.settings(
+    resourceGenerators in Test += Def.task {
+      val file = (resourceManaged in Test).value / "webapp.properties"
+      writeProperties(file, Map("webappDir" -> webappDir.value.toString))
+      Seq(file)
+    }.taskValue
+  )
   , /* Jrebel configuration (needs path to jrebel.jar) */ if (!sys.env.contains("JREBEL_PATH")) identity else _.settings(
     jrebel.webLinks += webappDir.value
     , javaOptions in container ++= Seq(
