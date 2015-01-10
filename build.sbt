@@ -62,7 +62,9 @@ lazy val root = configure(project in file("."))(
     testHelpers % "test"
   ).aggregate(
     testHelpers
-  )
+  ).settings(
+  unmanagedResourceDirectories in Test += baseDirectory.value / "features"
+)
   , /* Container configuration (for container:start etc) */
   _.settings(jetty(libs = Seq((d.jetty.runner % "container").intransitive)): _*)
   , /* Make location of webapp dir available to selenium tests */ _.settings(

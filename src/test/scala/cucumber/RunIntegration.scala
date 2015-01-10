@@ -8,7 +8,7 @@ import org.junit.runner.RunWith
 
 @RunWith(classOf[Cucumber])
 @CucumberOptions(
-  features = Array("classpath:cucumber"),
+  features = Array("classpath:."),
   glue = Array("cucumber.integration"),
   plugin = Array("html:target/cucumber/integration", "cucumber.pro.CucumberProFormatter"),
   tags = Array("@integration")
