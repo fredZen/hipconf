@@ -3,8 +3,8 @@ import PropertiesHelper._
 
 val webappDir = settingKey[File]("The webapp directory for the container")
 
-lazy val root = configure(project in file(".")
-  , /* Project information */ _.settings(
+val commonConfig: Project=>Project = configure (_) (
+  /* Project information */ _.settings(
     organization := "org.merizen"
     , name := "hipconf"
     , version := "0.1-SNAPSHOT"
@@ -12,6 +12,16 @@ lazy val root = configure(project in file(".")
   , /* Scala compiler configuration */ _.settings(
     scalaVersion := "2.11.4"
     , scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
+  )
+  , /* Where to look for library dependencies */ _.settings(
+    resolvers += Resolver.mavenLocal
+  )
+)
+
+lazy val root = configure(project in file("."))(
+  commonConfig
+  , /* Project information */ _.settings(
+    name := "hipconf"
   )
   , /* Library dependencies */ _.settings(
     libraryDependencies ++=
@@ -45,11 +55,13 @@ lazy val root = configure(project in file(".")
         , d.groovy
       )
   )
-  , /* Where to look for library dependencies */ _.settings(
-    resolvers += Resolver.mavenLocal
-  )
   , /* Shared definitions */ _.settings(
     webappDir := (sourceDirectory in Compile).value / "webapp"
+  )
+  , /* Shared test helpers */ _.dependsOn(
+    testHelpers % "test"
+  ).aggregate(
+    testHelpers
   )
   , /* Container configuration (for container:start etc) */
   _.settings(jetty(libs = Seq((d.jetty.runner % "container").intransitive)): _*)
@@ -72,7 +84,22 @@ lazy val root = configure(project in file(".")
   .settings(jrebelSettings: _*)
 )
 
-def configure(p: Project, cs: (Project => Project)*) = cs.reduce(_ andThen _)(p)
+lazy val testHelpers = configure(project)(
+  commonConfig
+  , /* Project information */ _.settings(
+    name := "hipconf-test-helpers"
+  )
+  , /* Library dependencies */ _.settings(
+    libraryDependencies ++=
+      forConfiguration(Compile
+        , d.cucumber.core
+        , d.cucumber.scala
+        , d.junit
+      )
+  )
+)
+
+def configure(p: Project)(cs: (Project => Project)*) = cs.reduce(_ andThen _)(p)
 
 def forConfiguration(c: Configuration, deps: ModuleID*) =
   deps map (_ % c)

@@ -1,6 +1,6 @@
 package cucumber.util
 
-import org.junit.{AfterClass, BeforeClass}
+import org.junit.AfterClass
 
 trait RunCucumberHooks {
   @AfterClass
