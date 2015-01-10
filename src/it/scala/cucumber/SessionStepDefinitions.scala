@@ -1,4 +1,4 @@
-package cucumber.integration
+package cucumber
 
 import cucumber.stepprototypes.SessionStepPrototypes
 import net.liftweb.squerylrecord.RecordTypeMode._

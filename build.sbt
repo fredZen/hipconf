@@ -36,7 +36,7 @@ lazy val root = configure(project in file("."))(
         , d.jquery
         , d.normalizeCss
       )
-        ++ forConfiguration(Test
+        ++ forConfiguration("test,it"
         , d.cucumber.core
         , d.cucumber.junit
         , d.cucumber.scala
@@ -59,12 +59,16 @@ lazy val root = configure(project in file("."))(
     webappDir := (sourceDirectory in Compile).value / "webapp"
   )
   , /* Shared test helpers */ _.dependsOn(
-    testHelpers % "test"
+    testHelpers % "test,it"
   ).aggregate(
     testHelpers
+  ).settings(Defaults.itSettings: _*
   ).settings(
-  unmanagedResourceDirectories in Test += baseDirectory.value / "features"
-)
+    unmanagedResourceDirectories in Test += baseDirectory.value / "features"
+    , unmanagedResourceDirectories in IntegrationTest += baseDirectory.value / "features"
+  ).configs(
+    IntegrationTest
+  )
   , /* Container configuration (for container:start etc) */
   _.settings(jetty(libs = Seq((d.jetty.runner % "container").intransitive)): _*)
   , /* Make location of webapp dir available to selenium tests */ _.settings(
@@ -105,3 +109,6 @@ def configure(p: Project)(cs: (Project => Project)*) = cs.reduce(_ andThen _)(p)
 
 def forConfiguration(c: Configuration, deps: ModuleID*) =
   deps map (_ % c)
+
+def forConfiguration(cs: String, deps: ModuleID*) =
+  deps map (_ % cs)
