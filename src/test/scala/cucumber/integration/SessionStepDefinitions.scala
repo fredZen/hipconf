@@ -16,9 +16,10 @@ object SessionStepDefinitions extends SessionStepPrototypes with ShouldMatchers 
   }
 
   override def publishSession(): Unit = inTransaction {
-    val session = sessionUnderEdition.get
-    session.save
-    session.authors.associate(AuthenticationStepDefinitions.currentUser.get)
+    for(session <- sessionUnderEdition) {
+      session.save
+      session.authors.associate(AuthenticationStepDefinitions.currentUser.get)
+    }
   }
 
   override def assertSessionVisible(sessionTitle: String, authorName: String): Unit = inTransaction {
