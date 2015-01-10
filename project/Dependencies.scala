@@ -6,6 +6,7 @@ object Dependencies {
   val logbackVersion = "1.1.2"
   val liquibaseVersion = "3.3.1"
   val snakeYamlVersion = "1.14"
+  val commonsIoVersion = "2.4"
 
   val normalizeCssVersion = "3.0.2"
   val jqueryVersion = "1.11.2"
@@ -36,6 +37,8 @@ object Dependencies {
       val runner = "org.eclipse.jetty" % "jetty-runner" % jettyVersion
     }
 
+    val commonsIo = "commons-io" % "commons-io" % commonsIoVersion
+    
     // Database
     val h2 = "com.h2database" % "h2" % h2Version
     val liquibaseCore = "org.liquibase" % "liquibase-core" % liquibaseVersion

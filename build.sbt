@@ -19,9 +19,10 @@ lazy val root = configure(project in file(".")
         , d.lift.webkit
         , d.lift.squerylRecord
         , d.h2
-        , d.logbackClassic
         , d.liquibaseCore
         , d.snakeYaml
+        , d.logbackClassic
+        , d.commonsIo
         , d.jquery
         , d.normalizeCss
       )
