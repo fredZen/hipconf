@@ -1,9 +1,11 @@
 import Dependencies.d
 import PropertiesHelper._
 
-val webappDir = settingKey[File]("The webapp directory for the container")
+lazy val EndToEndTest = config("e2e") extend(Test)
 
-val commonConfig: Project=>Project = configure (_) (
+lazy val webappDir = settingKey[File]("The webapp directory for the container")
+
+lazy val commonConfig: Project=>Project = configure (_) (
   /* Project information */ _.settings(
     organization := "org.merizen"
     , name := "hipconf"
@@ -36,7 +38,7 @@ lazy val root = configure(project in file("."))(
         , d.jquery
         , d.normalizeCss
       )
-        ++ forConfiguration("test,it"
+        ++ forConfiguration("test,it,e2e"
         , d.cucumber.core
         , d.cucumber.junit
         , d.cucumber.scala
@@ -59,15 +61,18 @@ lazy val root = configure(project in file("."))(
     webappDir := (sourceDirectory in Compile).value / "webapp"
   )
   , /* Shared test helpers */ _.dependsOn(
-    testHelpers % "test,it"
+    testHelpers % "test,it,e2e"
   ).aggregate(
     testHelpers
   ).settings(Defaults.itSettings: _*
+  ).settings(inConfig(EndToEndTest)(Defaults.testSettings): _*
   ).settings(
     unmanagedResourceDirectories in Test += baseDirectory.value / "features"
     , unmanagedResourceDirectories in IntegrationTest += baseDirectory.value / "features"
+    , unmanagedResourceDirectories in EndToEndTest += baseDirectory.value / "features"
   ).configs(
     IntegrationTest
+   , EndToEndTest
   )
   , /* Container configuration (for container:start etc) */
   _.settings(jetty(libs = Seq((d.jetty.runner % "container").intransitive)): _*)

@@ -1,4 +1,4 @@
-package cucumber.endtoend
+package cucumber
 
 import java.io.InputStream
 import java.util.Properties
